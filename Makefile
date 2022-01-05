@@ -2,11 +2,14 @@
 
 PREFIX = /usr/local
 CC = gcc
+CFLAGS   = -march=native -O3 -flto -pipe -fno-plt
+LDFLAGS  = $(CFLAGS) -Wl,-O3,--sort-common,--as-needed,-z,now
+
 
 dwmblocks: dwmblocks.o
-	$(CC) dwmblocks.o -lX11 -o dwmblocks
+	$(CC) dwmblocks.o -lX11 -o dwmblocks $(LDFLAGS)
 dwmblocks.o: dwmblocks.c config.h
-	$(CC) -c dwmblocks.c
+	$(CC) -c dwmblocks.c $(CFLAGS)
 clean:
 	rm -f *.o *.gch dwmblocks
 install: dwmblocks
